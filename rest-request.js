@@ -1,6 +1,7 @@
 var clientRequest = require('client-request');
 var Promise = require('bluebird');
 
+
 function isType(obj, type) {
 	return Object.prototype.toString.call(obj) === '[object ' + type + ']';
 };
