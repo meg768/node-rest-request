@@ -1,7 +1,6 @@
 var clientRequest = require('client-request');
 var Promise = require('bluebird');
 
-
 function isType(obj, type) {
 	return Object.prototype.toString.call(obj) === '[object ' + type + ']';
 };
@@ -20,7 +19,9 @@ function isObject(obj) {
 
 module.exports = function(baseURL) {
 	
-
+	this.get = function(path, params, headers) {
+		return this.request('GET', path, params, headers);
+	}
 	this.request = function(method, path, params, headers) {
 
 		function buildPath(path, params) {
