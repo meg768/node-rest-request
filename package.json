@@ -1,6 +1,6 @@
 {
   "name": "rest-request",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A HTTP client REST fetcher",
   "main": "rest-request.js",
   "scripts": {
