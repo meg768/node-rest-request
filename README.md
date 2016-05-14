@@ -1,11 +1,48 @@
 # node-rest-request
-Client HTTP request module
+A small node module for making REST requests.
 
-var Gopher = require('rest-request');
+# Installation
+	npm install rest-request
 
-var request = new Gopher('http://google');
+# Usage
+	var Request = require('rest-request');
+	var restAPI = new Request('http://server.com');
+	...	
+	var request = restAPI.get('customer/:id', {id:1001});
+	
+	request.then(function(customer) {
+		...
+	});
 
-request.get('wather/:id/', {id:32});
 
-
-
+# Example
+	var Request = require('rest-request');
+	var YahooAPI = new Request('https://query.yahooapis.com/v1/public');
+	
+	function getQuote(ticker) {
+		var options = {};
+		
+		options.q        = 'select * from yahoo.finance.quotes where symbol =  "' + ticker + '"';
+		options.format   = 'json';
+		options.env      = 'store://datatables.org/alltableswithkeys';
+		options.callback = '';
+		
+		var request = YahooAPI.get('yql', options);
+		
+		request.then(function(data) {
+			var quotes = data.query.results.quote;
+			
+			if (typeof qoutes != 'Array')
+				quotes = [quotes];
+				
+			console.log(ticker, '=', quotes[0].LastTradePriceOnly);		
+			
+		});
+	
+		request.catch(function(error) {
+			console.log(error);
+		});
+		
+	}
+	
+	getQuote('AAPL');

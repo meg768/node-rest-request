@@ -17,6 +17,21 @@ function isObject(obj) {
 	return obj !== null && isType(obj, 'Object');
 };
 
+function parseJSON(stuff, defaultValue) {
+
+	try {
+		if (stuff instanceof Buffer)
+			stuff = stuff.toString('utf8');
+
+		return JSON.parse(stuff);
+
+	}
+	catch (error) {
+		return defaultValue;		
+	}
+	
+}
+
 module.exports = function(baseURL) {
 	
 	this.get = function(path, params, headers) {
@@ -122,6 +137,8 @@ module.exports = function(baseURL) {
 
 		return new Promise(function(resolve, reject) {
 
+			console.log(options.uri);
+			
 			clientRequest(options, function (error, response, body) {
 
 				if (!error && response.statusCode == 200) {
@@ -149,7 +166,18 @@ module.exports = function(baseURL) {
 					}
 				}
 				else {
-					reject(error, response, body);
+					if (error == null)
+						error = body.toString();
+						
+					console.error(error);
+					
+					try {
+						error = JSON.parse(error);
+					}
+					catch (error) {
+					}
+					
+					reject(error);
 					
 				}
 			});
