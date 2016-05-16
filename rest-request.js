@@ -137,8 +137,6 @@ module.exports = function(baseURL) {
 
 		return new Promise(function(resolve, reject) {
 
-			console.log(options.uri);
-			
 			clientRequest(options, function (error, response, body) {
 
 				if (!error && response.statusCode == 200) {
