@@ -1,4 +1,4 @@
-# node-rest-request
+# rest-request
 A small node module for making REST requests.
 
 ## Installation
