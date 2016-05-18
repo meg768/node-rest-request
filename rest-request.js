@@ -32,7 +32,9 @@ function parseJSON(stuff, defaultValue) {
 	
 }
 
-module.exports = function(baseURL) {
+module.exports = function(baseURL, opts) {
+	
+	var _debug = opts && opts.debug;
 	
 	this.get = function(path, params, headers) {
 		return this.request('GET', path, params, headers);
@@ -51,7 +53,7 @@ module.exports = function(baseURL) {
 					
 				if (match) {
 					var name = match[1];
-					
+
 					if (params[name] != undefined) {
 						parts.push(params[name]);
 						delete params[name]
@@ -141,6 +143,13 @@ module.exports = function(baseURL) {
 		options.body    = buildBody(method, params, options.headers);
 
 		return new Promise(function(resolve, reject) {
+			
+			if (_debug) {
+				console.log('method', options.method);
+				console.log('uri', options.uri);
+				console.log('headers', options.headers);
+				console.log('body', options.body);
+			}
 
 			clientRequest(options, function (error, response, body) {
 
@@ -172,8 +181,6 @@ module.exports = function(baseURL) {
 					if (error == null)
 						error = body.toString();
 						
-					console.error(error);
-					
 					try {
 						error = JSON.parse(error);
 					}

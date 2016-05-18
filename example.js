@@ -1,5 +1,5 @@
 var RequestAPI = require('./rest-request.js');
-var yahoo      = new RequestAPI('https://query.yahooapis.com/v1/public');
+var yahoo      = new RequestAPI('https://query.yahooapis.com', {debug:true});
 
 function getQuote(ticker) {
 	var options = {};
@@ -8,10 +8,8 @@ function getQuote(ticker) {
 	options.format   = 'json';
 	options.env      = 'store://datatables.org/alltableswithkeys';
 	options.callback = '';
-	
-	var request = yahoo.get('yql', options);
-	
-	request.then(function(data) {
+		
+	yahoo.get('v1/public/yql', options).then(function(data) {
 		var quotes = data.query.results.quote;
 		
 		if (typeof qoutes != 'Array')
@@ -19,10 +17,11 @@ function getQuote(ticker) {
 			
 		console.log(ticker, '=', quotes[0].LastTradePriceOnly);		
 		
-	});
-
-	request.catch(function(error) {
+	})
+	
+	.catch (function(error) {
 		console.log(error);
+		
 	});
 	
 }

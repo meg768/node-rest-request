@@ -69,7 +69,7 @@ Equivalent with **request('PUT', path, params, headers)**
 
 ## Example
 	var Request = require('rest-request');
-	var YahooAPI = new Request('https://query.yahooapis.com/v1/public');
+	var yahoo   = new RequestAPI('https://query.yahooapis.com', {debug:true});
 	
 	function getQuote(ticker) {
 		var options = {};
@@ -78,10 +78,8 @@ Equivalent with **request('PUT', path, params, headers)**
 		options.format   = 'json';
 		options.env      = 'store://datatables.org/alltableswithkeys';
 		options.callback = '';
-		
-		var request = YahooAPI.get('yql', options);
-		
-		request.then(function(data) {
+			
+		yahoo.get('v1/public/yql', options).then(function(data) {
 			var quotes = data.query.results.quote;
 			
 			if (typeof qoutes != 'Array')
@@ -89,10 +87,11 @@ Equivalent with **request('PUT', path, params, headers)**
 				
 			console.log(ticker, '=', quotes[0].LastTradePriceOnly);		
 			
-		});
-	
-		request.catch(function(error) {
+		})
+		
+		.catch (function(error) {
 			console.log(error);
+			
 		});
 		
 	}
