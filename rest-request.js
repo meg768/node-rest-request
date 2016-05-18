@@ -39,6 +39,16 @@ module.exports = function(baseURL, opts) {
 	this.get = function(path, params, headers) {
 		return this.request('GET', path, params, headers);
 	}
+
+	this.put = function(path, params, headers) {
+		return this.request('PUT', path, params, headers);
+	}
+
+	this.post = function(path, params, headers) {
+		return this.request('POST', path, params, headers);
+	}
+
+
 	this.request = function(method, path, params, headers) {
 
 		function buildPath(path, params) {
