@@ -45,7 +45,7 @@ or
 	request.request('api/v2/customer/:id', {id:1001})
 
 The parameters not used in the path are instead added 
-to the uri efter the '?' sign. For example
+to the uri efter the '?' sign. For example the request
 
 	request.request('api/v2/customer/:id', {id:1001, search:'foo', limit:3})
 
@@ -55,19 +55,19 @@ will generate the uri
 
 ### request.get(path, params, headers)
 
-Equivalent with **request('GET', path, params, headers)
+Equivalent with **request('GET', path, params, headers)**
 
 ### request.post(path, params, headers)
 
-Equivalent with **request('POST', path, params, headers)
+Equivalent with **request('POST', path, params, headers)**
 
 ### request.put(path, params, headers)
 
-Equivalent with **request('PUT', path, params, headers)
+Equivalent with **request('PUT', path, params, headers)**
 
 
 
-# Example
+## Example
 	var Request = require('rest-request');
 	var YahooAPI = new Request('https://query.yahooapis.com/v1/public');
 	
