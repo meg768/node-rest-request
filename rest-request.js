@@ -96,8 +96,6 @@ module.exports = function(baseURL, opts) {
 				return encodeURIComponent(value);
 			}
 
-			//return Object.keys(params).map(key => encodeURIComponent(key) + '=' + uriEncode(params[key])).join('&');
-
 			var array = Object.keys(params).map(function(key) {
 				return encodeURIComponent(key) + '=' + uriEncode(params[key]);
 			});
