@@ -68,8 +68,8 @@ Equivalent with **request('PUT', path, params, headers)**
 
 
 ## Example
-	var Request = require('rest-request');
-	var yahoo   = new RequestAPI('https://query.yahooapis.com', {debug:true});
+	var RequestAPI = require('rest-request');
+	var yahoo      = new RequestAPI('https://query.yahooapis.com');
 	
 	function getQuote(ticker) {
 		var options = {};
