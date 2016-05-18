@@ -1,5 +1,5 @@
 var RequestAPI = require('./rest-request.js');
-var yahoo      = new RequestAPI('https://query.yahooapis.com', {debug:true});
+var yahoo      = new RequestAPI('https://query.yahooapis.com');
 
 function getQuote(ticker) {
 	var options = {};
