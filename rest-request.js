@@ -44,8 +44,13 @@ module.exports = function(baseURL) {
 			var parts = [];
 			
 			path.split('/').forEach(function(part) {
-				if (part[0] == '{' && part[part.length - 1] == '}') {
-					var name = part.slice(1, -1);
+				var match = part.match('^:([_$@A-Za-z0-9]+)$');
+				
+				if (!match)
+					match = part.match('^{([_$@A-Za-z0-9]+)}$');
+					
+				if (match) {
+					var name = match[1];
 					
 					if (params[name] != undefined) {
 						parts.push(params[name]);

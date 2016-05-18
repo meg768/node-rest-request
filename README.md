@@ -1,10 +1,10 @@
 # node-rest-request
 A small node module for making REST requests.
 
-# Installation
+## Installation
 	npm install rest-request
 
-# Usage
+## Usage
 	var Request = require('rest-request');
 	var restAPI = new Request('http://server.com');
 	...	
@@ -13,6 +13,58 @@ A small node module for making REST requests.
 	request.then(function(customer) {
 		...
 	});
+
+## Constructor
+
+### new Request(path)
+
+Constructs a new request object. It takes the following argument.
+
+- **path** - Specifies the path to the REST api.
+
+## Methods
+
+### request.request
+
+	request.request(method, path, params, headers)
+	
+- **method** - Specifies the method type, **get**, **put**, **post** or **delete**.
+- **path** - Specifies the path.
+- **params** - Optional object with parameters.
+- **headers** - Optional headers to use.
+
+The full uri string is built up using the static path specified in
+the constructor combined with the path specified in this method.
+The path may contain values from the parameters by
+specifying them in the path.
+
+	request.request('api/v2/customer/{id}', {id:1001})
+
+or
+
+	request.request('api/v2/customer/:id', {id:1001})
+
+The parameters not used in the path are instead added 
+to the uri efter the '?' sign. For example
+
+	request.request('api/v2/customer/:id', {id:1001, search:'foo', limit:3})
+
+will generate the uri
+
+	api/v2/customer/1001?search=foo&limit=3
+
+### request.get(path, params, headers)
+
+Equivalent with **request('GET', path, params, headers)
+
+### request.post(path, params, headers)
+
+Equivalent with **request('POST', path, params, headers)
+
+### request.put(path, params, headers)
+
+Equivalent with **request('PUT', path, params, headers)
+
 
 
 # Example
