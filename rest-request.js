@@ -27,15 +27,15 @@ function parseJSON(stuff, defaultValue) {
 
 	}
 	catch (error) {
-		return defaultValue;		
+		return defaultValue;
 	}
-	
+
 }
 
 module.exports = function(baseURL, opts) {
-	
+
 	var _debug = opts && opts.debug;
-	
+
 	this.get = function(path, params, headers) {
 		return this.request('GET', path, params, headers);
 	}
@@ -52,15 +52,15 @@ module.exports = function(baseURL, opts) {
 	this.request = function(method, path, params, headers) {
 
 		function buildPath(path, params) {
-			
+
 			var parts = [];
-			
+
 			path.split('/').forEach(function(part) {
 				var match = part.match('^:([_$@A-Za-z0-9]+)$');
-				
+
 				if (!match)
 					match = part.match('^{([_$@A-Za-z0-9]+)}$');
-					
+
 				if (match) {
 					var name = match[1];
 
@@ -68,27 +68,27 @@ module.exports = function(baseURL, opts) {
 						parts.push(params[name]);
 						delete params[name]
 					}
-					else	
+					else
 						parts.push(part);
 				}
 				else
 					parts.push(part);
-					
-			});		
-			
+
+			});
+
 			return parts.join('/');
 		};
 
 		function buildParams(params) {
-			
+
 			if (params == undefined)
 				params = {};
-				
+
 			function uriEncode(value) {
-			
+
 				if (isArray(value)) {
 					value = value.join(',');
-				} 
+				}
 				else if (isObject(value)) {
 					value = JSON.stringify(value);
 				}
@@ -99,23 +99,33 @@ module.exports = function(baseURL, opts) {
 			var array = Object.keys(params).map(function(key) {
 				return encodeURIComponent(key) + '=' + uriEncode(params[key]);
 			});
-			
+
 			return array.join('&');
 		}
-		
+
 		function buildHeaders(headers) {
 
 			var result = {};
-			
+
+			// Add default headers
+			if (opts && opts.headers) {
+				Object.keys(opts.headers).forEach(function(key) {
+					result[key.toLowerCase()] = opts.headers[key];
+				});
+			}
+
 			if (isObject(headers)) {
 				Object.keys(headers).forEach(function(key) {
 					result[key.toLowerCase()] = headers[key];
 				});
 			}
 
+			if (result['content-type'] == undefined)
+				result['content-type'] = 'application/json';
+
 			return result;
 		};
-		
+
 		function buildBody(method, params, headers) {
 
 			if (method == 'post' || method == 'put') {
@@ -127,12 +137,12 @@ module.exports = function(baseURL, opts) {
 				}
 			}
 		}
-		
+
 		function buildQuery(method, params) {
 			if (method == 'get' || method == 'delete') {
 				return buildParams(params);
 			}
-			
+
 			return '';
 
 		}
@@ -143,15 +153,15 @@ module.exports = function(baseURL, opts) {
 
 			return baseURL + '/' + (query == '' ? path : path + '?' + query);
 		}
-		
+
 		var options = {};
 		options.method  = method.toLowerCase();
 		options.uri     = buildURI(options.method, path, params);
 		options.headers = buildHeaders(headers);
-		options.body    = buildBody(method, params, options.headers);
+		options.body    = buildBody(options.method, params, options.headers);
 
 		return new Promise(function(resolve, reject) {
-			
+
 			if (_debug) {
 				console.log('method', options.method);
 				console.log('uri', options.uri);
@@ -162,17 +172,17 @@ module.exports = function(baseURL, opts) {
 			clientRequest(options, function (error, response, body) {
 
 				if (!error && response.statusCode == 200) {
-					
+
 					var contentType = '';
-					
+
 					if (response.headers && isString(response.headers['content-type'])) {
 						contentType = response.headers['content-type'];
 					}
-					
+
 
 					if (contentType.match("application/json")) {
 						var json = {};
-						
+
 						try {
 							resolve(JSON.parse(body));
 						}
@@ -188,22 +198,20 @@ module.exports = function(baseURL, opts) {
 				else {
 					if (error == null)
 						error = body.toString();
-						
+
 					try {
 						error = JSON.parse(error);
 					}
 					catch (error) {
 					}
-					
+
 					reject(error);
-					
+
 				}
 			});
-			
+
 		});
 	}
 
 
 };
-
-
