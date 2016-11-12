@@ -1,7 +1,7 @@
 {
   "author": "meg768",
   "name": "rest-request",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A HTTP client REST fetcher",
   "main": "rest-request.js",
   "license": "ISC",
