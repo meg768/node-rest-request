@@ -32,6 +32,9 @@ module.exports = function(baseURL, opts) {
 		return this.request('POST', path, params, headers);
 	}
 
+	this.delete = function(path, params, headers) {
+		return this.request('DELETE', path, params, headers);
+	}
 
 	this.request = function(method, path, params, headers) {
 
