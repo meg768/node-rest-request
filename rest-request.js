@@ -1,5 +1,4 @@
 var clientRequest = require('client-request');
-var Promise = require('bluebird');
 
 function isType(obj, type) {
 	return Object.prototype.toString.call(obj) === '[object ' + type + ']';
@@ -16,21 +15,6 @@ function isString(obj) {
 function isObject(obj) {
 	return obj !== null && isType(obj, 'Object');
 };
-
-function parseJSON(stuff, defaultValue) {
-
-	try {
-		if (stuff instanceof Buffer)
-			stuff = stuff.toString('utf8');
-
-		return JSON.parse(stuff);
-
-	}
-	catch (error) {
-		return defaultValue;
-	}
-
-}
 
 module.exports = function(baseURL, opts) {
 
@@ -179,12 +163,14 @@ module.exports = function(baseURL, opts) {
 						contentType = response.headers['content-type'];
 					}
 
-
 					if (contentType.match("application/json")) {
-						var json = {};
 
 						try {
-							resolve(JSON.parse(body));
+							// Pars JSON first
+							var json = JSON.parse(body);
+
+							// And resolve if succeeded
+							resolve(json);
 						}
 
 						catch (error) {

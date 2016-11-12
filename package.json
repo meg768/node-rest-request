@@ -1,7 +1,7 @@
 {
   "author": "meg768",
   "name": "rest-request",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A HTTP client REST fetcher",
   "main": "rest-request.js",
   "license": "ISC",
@@ -17,7 +17,6 @@
     "url": "https://github.com/meg768/rest-request/issues"
   },
   "dependencies": {
-    "bluebird": "^3.3.5",
     "client-request": "^1.1.0"
   }
 }
