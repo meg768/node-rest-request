@@ -21,9 +21,10 @@ A small node module for making REST requests.
 Constructs a new request object. It takes the following argument.
 
 - **path** - Specifies the path to the REST api.
-- **options** - Options are 
+- **options** - Specifies an object with the following options.
 	- **headers** - Specifies default headers that is added to each request.
-	- **debug**   - Displays information to the console. 
+	- **debug**   - Displays information to the console.
+
 ## Methods
 
 ### request.request
