@@ -76,7 +76,7 @@ module.exports = function(baseURL, opts) {
 				else if (isObject(value)) {
 					value = JSON.stringify(value);
 				}
-				//return value;
+
 				return encodeURIComponent(value);
 			}
 
